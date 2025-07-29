@@ -19,6 +19,9 @@ export default function Signup() {
 
     console.log("logging after adding acquisition ");
     console.log(data);
+
+    //reseting form after sumbission
+    event.target.reset();
   }
 
   return (

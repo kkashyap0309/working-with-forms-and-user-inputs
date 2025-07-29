@@ -20,6 +20,12 @@ export default function Login() {
     event.preventDefault();
     console.log("submitted!!");
     console.log(formData);
+
+    //reseting the form value after submission
+    setFormData({
+      email: "",
+      password: "",
+    });
   }
 
   return (

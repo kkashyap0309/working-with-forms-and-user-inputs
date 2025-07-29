@@ -11,6 +11,9 @@ export default function Login() {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     console.log(email, password);
+
+    //reseting form after sumbission
+    event.target.reset();
   }
 
   return (
