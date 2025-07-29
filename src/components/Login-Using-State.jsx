@@ -7,11 +7,23 @@ export default function Login() {
     password: "",
   });
 
+  const [isEdited, setIsEdited] = useState({
+    email: false,
+    password: false,
+  });
+
   function handleOnchangeEvent(identifier, value) {
     setFormData((prev) => {
       return {
         ...prev,
         [identifier]: value,
+      };
+    });
+
+    setIsEdited((prev) => {
+      return {
+        ...prev,
+        [identifier]: false,
       };
     });
   }
@@ -28,6 +40,17 @@ export default function Login() {
     });
   }
 
+  function handleInputBoxBlur(identifier) {
+    setIsEdited((prev) => {
+      return {
+        ...prev,
+        [identifier]: true,
+      };
+    });
+  }
+
+  const isValidEmail = !isEdited.email || formData.email.includes("@");
+
   return (
     <form onSubmit={handleSubmitEvent}>
       <h2>Login</h2>
@@ -43,7 +66,11 @@ export default function Login() {
               handleOnchangeEvent("email", event.target.value)
             }
             value={formData.email}
+            onBlur={() => handleInputBoxBlur('email')}
           />
+          <div className="control-error">
+            {!isValidEmail && <p>enter valid email address.</p>}
+          </div>
         </div>
 
         <div className="control no-margin">
