@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Input from "./Input";
+import {isEmail, isNotEmpty, hasMinLength} from "../util/validation.js";
 
 export default function Login() {
   //one way of handling the userInput
@@ -49,7 +51,8 @@ export default function Login() {
     });
   }
 
-  const isValidEmail = !isEdited.email || formData.email.includes("@");
+  const isValidEmail = !isEdited.email || isEmail(formData.email)
+  const validPwdLength = !isEdited.password || (isNotEmpty(formData.password) && hasMinLength(formData.password, 5));
 
   return (
     <form onSubmit={handleSubmitEvent}>
@@ -57,32 +60,32 @@ export default function Login() {
 
       <div className="control-row">
         <div className="control no-margin">
-          <label htmlFor="email">Email</label>
-          <input
+          <Input
             id="email"
+            label="Email"
+            err={!isValidEmail && "enter valid email address."}
             type="email"
             name="email"
             onChange={(event) =>
               handleOnchangeEvent("email", event.target.value)
             }
             value={formData.email}
-            onBlur={() => handleInputBoxBlur('email')}
+            onBlur={() => handleInputBoxBlur("email")}
           />
-          <div className="control-error">
-            {!isValidEmail && <p>enter valid email address.</p>}
-          </div>
         </div>
 
         <div className="control no-margin">
-          <label htmlFor="password">Password</label>
-          <input
+          <Input
             id="password"
+            label="Password"
+            err={!validPwdLength && "password length should be greater than 5."}
             type="password"
             name="password"
             onChange={(event) =>
               handleOnchangeEvent("password", event.target.value)
             }
             value={formData.password}
+            onBlur={() => handleInputBoxBlur("password")}
           />
         </div>
       </div>
